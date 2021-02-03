@@ -8,7 +8,7 @@ from utils.ImgHelper import ImgHelper
 
 currentRoot = os.getcwd()
 ProjectRoot = os.path.abspath(os.path.join(currentRoot, '..'))
-ImgRoot = os.path.join(ProjectRoot, 'dataSet')
+ImgRoot = os.path.join(ProjectRoot, 'data')
 configPath = os.path.join(ProjectRoot, 'config')
 
 # 动作序列
@@ -62,21 +62,25 @@ class DataSetCollector(object):
         self.imgHelper.GetImg(self.windowName, saveImgName)
         return saveImgName
 
+    def Getdata(self):
+        saveImgName = self.GetImg()
+        with open(os.path.join(ImgRoot, 'train.txt'), 'a') as trainfile:
+            trainfile.write(saveImgName)
+
+            for key in Allkey:
+                trainfile.write(" " + str(Keylist[key]))
+            trainfile.write("\n")
+
+    # 日常监听记录
     def ListenKeyboard(self, delay):
         while True:
+            self.Getdata()
             time.sleep(delay)
-            saveImgName = self.GetImg()
-            with open(os.path.join(ImgRoot, 'train.txt'), 'a') as trainfile:
-                trainfile.write(saveImgName)
-
-                for key in Allkey:
-                    trainfile.write(" " + str(Keylist[key]))
-                trainfile.write("\n")
 
     def StartCollect(self):
         self.keyboardListener.start()
         # 开启键盘监听线程
-        _thread.start_new_thread(self.ListenKeyboard, tuple([1]))
+        _thread.start_new_thread(self.ListenKeyboard, tuple([0.5]))
         global Finish
         while True:
             # print(Finish)

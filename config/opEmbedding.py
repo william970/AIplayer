@@ -20,11 +20,11 @@ def genOnehot(N):
 
 
 # 警告！
-# 该脚本用于生成操作向量的嵌入 因为操作是一个[10,15]的向量 分别表示10帧 15个按键控制（1和0分别表示按下或者没按下）
+# 该脚本用于生成操作向量的嵌入 因为操作是一个[10,11]的向量 分别表示10帧 11个按键控制（1和0分别表示按下或者没按下）
 # 采用sklearn的多维度缩放来将[10,15]转换成[10,1000] 相当于操作向量嵌入作为outputEmbedding
 # 因为MDS具有随机性 所以如果不想从头训练 不要运行这个脚本
 if __name__ == "__main__":
-    opVec = genOnehot(8)
+    opVec = genOnehot(11)
     opDict = {}
     for i in range(len(opVec)):
         opDict[i] = list(opVec[i])
