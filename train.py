@@ -80,11 +80,12 @@ if __name__ == "__main__":
                 print(loss)
                 # 反向传播
                 loss.backward()
-                print('epoch : ' + str(epoch) + ' success')
+                print('epoch : ' + str(epoch) + 'no : ' + str(i) + ' success')
                 # 更新网络
                 opti.step()
                 # 去除梯度
                 opti.zero_grad()
+                torch.cuda.empty_cache()
         # print(rtnet.opList.shape)
         if epoch == 1:
             torch.save(rtnet, os.path.join('weight', opt.weights))
