@@ -59,7 +59,13 @@ class RTNet(nn.Module):
                 self.opList = torch.cat((self.opList, op))
                 return None
         else:
-            self.GraphVectorList = self.GraphVectorList[1:]
+            # self.GraphVectorList[0] = self.GraphVectorList[0].cpu()
+            temp = self.GraphVectorList[1:]
+            self.GraphVectorList = []
+            self.GraphVectorList = temp
+            tep = self.opList[1:]
+            self.opList = []
+            self.opList = tep
             output = self.resnet.conv1(img)
             output = self.resnet.bn1(output)
             output = self.resnet.relu(output)
@@ -74,6 +80,9 @@ class RTNet(nn.Module):
             output = self.FullConnection(output)
             # print(self.GraphVectorList.shape)
             self.GraphVectorList = torch.cat((self.GraphVectorList, output))
+            self.opList = torch.cat((self.opList, op))
+            print(self.opList.shape)
+            print(self.GraphVectorList.shape)
             tgt = torch.Tensor(10).unsqueeze(0)
             src = torch.Tensor(10).unsqueeze(0)
             src_mask, trg_mask = create_masks(src, tgt)

@@ -3,6 +3,7 @@ import torch
 from skimage import io
 from torchvision.transforms import Resize, Normalize
 
+
 class GameDataSet(Dataset):
     def __init__(self, label_path):
         super(GameDataSet, self).__init__()
@@ -32,7 +33,6 @@ class GameDataSet(Dataset):
 
     def __len__(self):
         return len(self.data)
-
 
 # if __name__ == "__main__":
 #     train_data = GameDataSet('../data/train.txt')
